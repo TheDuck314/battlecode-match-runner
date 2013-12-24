@@ -48,7 +48,7 @@ public class MatchResultInterface {
         //frame.add(button[4], "3, 3");
         
         String vs = String.format("%s vs %s", teamA, teamB);
-        String result = String.format("Match result: %s", calculateRecord(teamA, teamB, descriptors));
+        String result = String.format("Match result: %s", GameDescriptor.calculateRecord(teamA, teamB, descriptors));
         panel.add(new JLabel(vs), "1, 0, 2, 0");
         panel.add(new JLabel(result), "3, 0, 4, 0");
         
@@ -86,17 +86,5 @@ public class MatchResultInterface {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-    }
-    
-    private static String calculateRecord(String teamA, String teamB, GameDescriptor[] descriptors) {
-        int aWins = 0, bWins = 0;
-        for(GameDescriptor desc : descriptors) {
-            assert desc.getTeamName(Team.A).equals(teamA) || desc.getTeamName(Team.A).equals(teamB);
-            assert desc.getTeamName(Team.B).equals(teamA) || desc.getTeamName(Team.B).equals(teamB);
-
-            if(desc.getWinnerName().equals(teamA)) aWins++;
-            else bWins++;
-        }
-        return String.format("%d-%d", aWins, bWins);
     }
 }

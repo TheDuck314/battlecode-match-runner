@@ -13,6 +13,13 @@ public class GameRunner {
     public static void run(String teamA, String teamB, String map, String gameFile) throws IOException {
         System.out.format("Running game between %s and %s on %s...\n", teamA, teamB, map);   
         
+        //Randomize who is actually A and who is actually B
+        if(Math.random() < 0.5) {
+            String tmp = teamA;
+            teamA = teamB;
+            teamB = tmp;
+        }
+        
         Config bcConfig = Config.getGlobalConfig();
         //bcConfig.set("bc.engine.debug-methods", "false");
         bcConfig.set("bc.game.maps", map);

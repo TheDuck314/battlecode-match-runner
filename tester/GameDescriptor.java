@@ -30,4 +30,16 @@ public class GameDescriptor {
     public String getRmsFile() {
         return rmsFile;
     }
+    
+    public static String calculateRecord(String teamA, String teamB, GameDescriptor[] descriptors) {
+        int aWins = 0, bWins = 0;
+        for(GameDescriptor desc : descriptors) {
+            assert desc.getTeamName(Team.A).equals(teamA) || desc.getTeamName(Team.A).equals(teamB);
+            assert desc.getTeamName(Team.B).equals(teamA) || desc.getTeamName(Team.B).equals(teamB);
+
+            if(desc.getWinnerName().equals(teamA)) aWins++;
+            else bWins++;
+        }
+        return String.format("%d-%d", aWins, bWins);
+    }
 }

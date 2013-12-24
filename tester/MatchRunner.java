@@ -14,13 +14,19 @@ public class MatchRunner {
         System.out.print("Team B: ");
         String teamB = in.readLine().trim();
 
+        // String[] maps = { "bloodbath", "Cairo", "speakers" };
+        String[] maps = getAllMaps();
+
+        GameDescriptor[] descriptors = MatchRunner.runMatch(teamA, teamB, maps);
+        
+        MatchResultInterface.display(teamA, teamB, descriptors);
+    }
+
+    public static GameDescriptor[] runMatch(String teamA, String teamB, String[] maps) throws IOException, ClassNotFoundException {
         System.out.format("Running match between %s and %s...\n", teamA, teamB);
 
         String matchDir = pickMatchDir(teamA, teamB);
         new File(matchDir).mkdirs();
-
-        // String[] maps = { "bloodbath", "Cairo", "speakers" };
-        String[] maps = getAllMaps();
 
         String[] gameFiles = new String[maps.length];
         GameDescriptor[] descriptors = new GameDescriptor[maps.length];
@@ -29,10 +35,10 @@ public class MatchRunner {
             GameRunner.run(teamA, teamB, maps[i], gameFiles[i]);
             descriptors[i] = GameAnalyzer.analyze(gameFiles[i]);
         }
-
-        MatchResultInterface.display(teamA, teamB, descriptors);
+       
+        return descriptors;
     }
-
+    
     private static String pickMatchDir(String teamA, String teamB) {
         Calendar c = Calendar.getInstance();
         int month = c.get(Calendar.MONTH);
@@ -45,7 +51,7 @@ public class MatchRunner {
         return String.format("%s/%s.rms", matchDir, map);
     }
 
-    private static String[] getAllMaps() {
+    public static String[] getAllMaps() {
         File mapsDir = new File("./maps");
         String[] filenames = mapsDir.list();
         String[] maps = new String[filenames.length];
